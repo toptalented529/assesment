@@ -1,0 +1,133 @@
+import { Dimensions, StyleSheet } from 'react-native'
+import { COLOR_YELLOW } from '../../constants/colors'
+
+const {width, height } = Dimensions.get('window');
+
+export default StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  slide: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: -height * 0.15,
+  },
+  image: {
+    maxWidth: '80%',
+    // height: 300,
+    height: height * 0.3,
+    resizeMode: 'contain',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  description: {
+    paddingVertical: 32,
+    paddingHorizontal: 42,
+  },
+  title: {
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    lineHeight: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  title_first: {
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    lineHeight: 24,
+    fontWeight: '100',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  text: {
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    lineHeight: 20,
+    fontWeight: '300',
+    textAlign: 'center',
+  },
+  text_last: {
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    lineHeight: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  submitBtn: {
+    marginBottom: 36,
+  },
+  paginationContainer: {
+    position: 'absolute',
+    bottom: height * 0.05,
+    // left: 16,
+    // right: 16,
+    height: height * 0.15,
+    width:width * 1,
+  },
+  paginationDots: {
+    height: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  activatedDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    marginHorizontal: 6,
+    borderWidth: 1,
+    borderColor: "white",
+    borderStyle: 'solid',
+    backgroundColor: "white",
+  },
+  dot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    marginHorizontal: 6,
+    borderWidth: 1,
+    borderColor: '#605E5E',
+    borderStyle: 'solid',
+    backgroundColor: '#2B2D2E',
+  },
+  registerButton: {
+    height: height * 0.08,
+    // width: width * 0.8,
+  },
+  registerText: {
+    fontFamily: 'Montserrat',
+    fontSize: 14,
+    fontWeight: '600',
+    letterSpacing: 1.4,
+    textAlign: 'center',
+    color: '#fff',
+  },
+  logo: {
+    width: 93,
+    height: 48,
+    resizeMode: 'contain',
+  },
+  logoText: {
+    width: 275,
+    height: 33,
+    marginTop: 11,
+    fontFamily: 'Montserrat',
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '#fff',
+  },
+  appText: {
+    width: width * 0.8,
+    marginTop: 14,
+    fontFamily: 'Montserrat',
+    fontSize: 36,
+    fontWeight: '700',
+    letterSpacing: 4,
+    textAlign: 'center',
+    color: '#fff',
+  },
+})
