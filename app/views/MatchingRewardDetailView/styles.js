@@ -112,7 +112,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '50%',
+    width: '33%',
   },
   followWrap: {
     flexDirection: 'row',
@@ -129,12 +129,8 @@ export default StyleSheet.create({
   },
 
   avatarIcon: {
-    width: width * 0.28,
-    height: width * 0.28,
-  },
-  embaIcon: {
-    width: width * 0.4,
-    height: width * 0.4,
+    width: 112,
+    height: 112,
   },
   balanceText: {
     fontSize: 18,
@@ -153,100 +149,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     fontSize: 22,
     fontWeight: '800',
-  },
-
-  btnContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: height * 0.01,
-  },
-  btnBox: {
-    width: width * 0.25,
-    height: width * 0.35,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 29,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-  },
-  btnAvatar: {
-    width: 28,
-    height: 28,
-  },
-  btnText: {
-    fontFamily: 'Montserrat',
-    fontSize: 13.5,
-    fontWeight: '600',
-    lineHeight: 17,
-    marginTop: 18,
-    textAlign: 'center',
-  },
-  transactionText: {
-    fontFamily:"Poppins",
-    fontSize:16,
-    fontWeight:"bold",
-    color:"#fff",
-    letterSpacing:2,
-    marginHorizontal: width * 0.07,
-    marginVertical: height * 0.01,
-  },
-
-  recentActivityText: {
-    fontFamily: 'Montserrat',
-    fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 8,
-  },
-  recentActivityBox: {
-    height: 73,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    paddingHorizontal: 22,
-  },
-  recentActivityAvatarBox: {
-    width: 39,
-    height: 39,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 50,
-  },
-  recentActivityBoxText: {
-    fontFamily: 'Montserrat',
-    fontSize: 14,
-    marginLeft: 16,
-  },
-  moreActivityBtn: {
-    paddingLeft: 22,
-    paddingRight: 10,
-    borderLeftWidth: 1,
-  },
-
-  cardContainer: {
-    borderRadius: 20,
-    paddingHorizontal: 1,
-    paddingVertical: 1,
-    // height: height* 0.15,
-    flexDirection:"column",
-    justifyContent:"center",
-    paddingVertical: height * 0.02,
-
-    
-  },
-  cardContainerBorder: {
-    borderRadius: 20,
-    marginHorizontal: width * 0.06,
-    marginVertical: height * 0.02,
-    paddingHorizontal: 1,
-    paddingVertical: 1,
-    // height:height * 0.15,
-  },
-  cardBox: {
-    // height: height * 0.15,
-    borderRadius: 29,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    letterSpacing:4,
   },
   chronometer: {
     color:"#fff",
@@ -280,16 +183,108 @@ export default StyleSheet.create({
   chronometersubBox: {
     padding:12
   },
+  btnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignSelf:"flex-start"
+  },
+  btnBox: {
+    width: 100,
+    height: 127,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 29,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  btnAvatar: {
+    width: 28,
+    height: 28,
+  },
+  btnText: {
+    fontFamily: 'Montserrat',
+    fontSize: 13.5,
+    fontWeight: '600',
+    lineHeight: 17,
+    marginTop: 18,
+    textAlign: 'center',
+  },
+
+  recentActivityText: {
+    fontFamily: 'Montserrat',
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  recentActivityBox: {
+    height: 73,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingHorizontal: 22,
+    borderRadius:24,
+  },
+  recentActivityAvatarBox: {
+    width: 39,
+    height: 39,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+  },
+  recentActivityBoxText: {
+    fontFamily: 'Montserrat',
+    fontSize: 14,
+    marginLeft: 16,
+  },
+  moreActivityBtn: {
+    paddingLeft: 22,
+    paddingRight: 10,
+    borderLeftWidth: 1,
+  },
+
+  cardContainer: {
+    borderRadius: 29,
+    paddingHorizontal: 1,
+    paddingVertical: 1,
+  },
+  cardContainerBorder: {
+    borderRadius: 29,
+    marginHorizontal: width * 0.08,
+    marginVertical: height * 0.01,
+    paddingHorizontal: 2,
+    paddingVertical: 2,
+  },
+  cardBox: {
+    height: 139,
+    borderRadius: 29,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  whiteline: {
+    width: width * 0.7,
+    borderStyle:"solid",
+    borderTopColor:"#fff",
+    borderWidth:0.5,
+    marginVertical:height * 0.01,
+  },
   cardPic: {
-    width: width * 0.13,
-    height: width * 0.13,
+    width: width * 0.2,
+    height: width * 0.2,
     resizeMode:"contain",
+    marginLeft: -width * 0.15
+  },
+  cardPicHeader: {
+    width: width * 0.2,
+    height: width * 0.2,
+    resizeMode:"contain",
+    // marginLeft: -width * 0.15
   },
   cardpiccontainer: {
-    width: width * 0.23,
-    height: width * 0.23,
+    width: width * 0.3,
+    height: width * 0.25,
     backgroundColor:"#141436",
-    borderRadius:50,
+    borderRadius:12,
     justifyContent:"center",
     alignItems:"center",
     flexDirection:"row"
@@ -309,24 +304,20 @@ export default StyleSheet.create({
   },
   cardInfoText: {
     fontFamily: 'Montserrat',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     lineHeight: 22,
     width: 129,
   },
   activeword : {
+    paddingHorizontal:width * 0.02,
+    backgroundColor:"rgba(65, 232, 141, 0.69)",
     color:"white",
     borderRadius:12,
     fontFamily:"Poppins",
     fontWeight:"light",
-    fontSize:12,
     marginBottom:height * 0.005,
-    opacity:1,
-  },
-  verticalLine: {
-    backgroundColor:"#fff",
-    width:1,
-    height:width * 0.12,
+    textAlign:"center"
   },
   cardInfoBtn: {
     width: 129,
@@ -352,6 +343,33 @@ export default StyleSheet.create({
     flexDirection:"column",
     margin:0,
     padding:0,
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  imagebox:{
+    width:width * 0.25,
+    height:width * 0.25,
+    backgroundColor:"#02020e",
+    borderRadius:50,
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  tabulatorText: {
+    color:"#3c53d7",
+    fontSize:10,
+  },
+  percentbox:{
+    position:"relative",
+    backgroundColor:"#3e315c",
+    height:15,
+    width: width * 0.75,
+    borderRadius:12,
+  },
+  verticalline: {
+    position:"absolute",
+    height:15,
+    width:1,
+    // top:-15,
   }
  
 });

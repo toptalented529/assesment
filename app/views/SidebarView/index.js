@@ -55,7 +55,7 @@ const SidebarView = props => {
     {
       id: 'rewards',
       name: 'Rewards',
-      subItems: ['Direct', 'Empates', "Igualacion", "Range", 'Annual', "Embassador"],
+      subItems: ['Direct', 'Empates', "Igualacion", "Range","Team",'Sales', 'Annual', "Embassador"],
     },
     {
       id: 'my_team',

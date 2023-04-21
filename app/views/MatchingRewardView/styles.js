@@ -1,5 +1,4 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import { COLOR_BLACK } from '../../constants/colors';
 
 const {width, height} = Dimensions.get('screen');
 export default StyleSheet.create({
@@ -112,7 +111,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '50%',
+    width: '33%',
   },
   followWrap: {
     flexDirection: 'row',
@@ -129,12 +128,8 @@ export default StyleSheet.create({
   },
 
   avatarIcon: {
-    width: width * 0.28,
-    height: width * 0.28,
-  },
-  embaIcon: {
-    width: width * 0.4,
-    height: width * 0.4,
+    width: 112,
+    height: 112,
   },
   balanceText: {
     fontSize: 18,
@@ -142,12 +137,11 @@ export default StyleSheet.create({
   },
   balancePriceBox: {
     alignItems: 'center',
-    width: width * 0.8,
-    // height: height * 0.2 ,
+    width: 170,
+    height: 33,
     borderRadius: 13,
     marginBottom: 20,
     marginTop: 6,
-    backgroundColor:"#000"
   },
   balancePriceText: {
     justifyContent: 'center',
@@ -158,11 +152,11 @@ export default StyleSheet.create({
   btnContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: height * 0.01,
+    paddingHorizontal:width * 0.1,
   },
   btnBox: {
     width: width * 0.25,
-    height: width * 0.35,
+    height: width * 0.3,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 29,
@@ -180,15 +174,6 @@ export default StyleSheet.create({
     lineHeight: 17,
     marginTop: 18,
     textAlign: 'center',
-  },
-  transactionText: {
-    fontFamily:"Poppins",
-    fontSize:16,
-    fontWeight:"bold",
-    color:"#fff",
-    letterSpacing:2,
-    marginHorizontal: width * 0.07,
-    marginVertical: height * 0.01,
   },
 
   recentActivityText: {
@@ -225,10 +210,10 @@ export default StyleSheet.create({
   cardContainer: {
     borderRadius: 20,
     paddingHorizontal: 1,
-    paddingVertical: 1,
+    paddingVertical: 3,
     // height: height* 0.15,
     flexDirection:"column",
-    justifyContent:"center",
+    justifyContent:"space-around",
     paddingVertical: height * 0.02,
 
     
@@ -242,53 +227,40 @@ export default StyleSheet.create({
     // height:height * 0.15,
   },
   cardBox: {
-    // height: height * 0.15,
+    height: height * 0.15,
     borderRadius: 29,
     flexDirection: 'row',
-    justifyContent: 'space-around',
     alignItems: 'center',
-  },
-  chronometer: {
-    color:"#fff",
-    fontFamily:"Poppins",
-    fontSize:16,
-    alignSelf:"center"
-  },  
-  chronometerDays: {
-    width:width * 0.15,
-    height:width * 0.15,
-    backgroundColor:COLOR_BLACK,
-    justifyContent:"center",
-    textAlign:"center",
-    borderRadius:12,
-    alignItems:"center"
-
-
-  },
-  chronometerDay: {
-    color:"#fff",
-    textAlign:"center",
-    padding:2
-
-  },
-  ChronometerBox: {
-    flex:0,
-    flexDirection:"column",
-    justifyContent:"flex-start",
-    alignItems:"flex-start"
-  },  
-  chronometersubBox: {
-    padding:12
+    justifyContent: 'flex-start',
+    paddingLeft:width * 0.07,
   },
   cardPic: {
-    width: width * 0.13,
-    height: width * 0.13,
+    width: width * 0.2,
+    height: width * 0.2,
     resizeMode:"contain",
+    marginLeft: -width * 0.15,
+    alignSelf:"center"
+  },
+  cardPicHeader: {
+    width: width * 0.18,
+    height: width * 0.18,
+    resizeMode:"contain",
+    // marginLeft: -width * 0.15,
+    alignSelf:"center"
   },
   cardpiccontainer: {
-    width: width * 0.23,
-    height: width * 0.23,
+    width: width * 0.28,
+    height: width * 0.28,
     backgroundColor:"#141436",
+    borderRadius:12,
+    justifyContent:"center",
+    alignItems:"center",
+    flexDirection:"row"
+  },
+  cardpiccontainerHeader: {
+    width: width * 0.25,
+    height: width * 0.25,
+    backgroundColor:"#02020e",
     borderRadius:50,
     justifyContent:"center",
     alignItems:"center",
@@ -309,33 +281,34 @@ export default StyleSheet.create({
   },
   cardInfoText: {
     fontFamily: 'Montserrat',
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: '700',
     lineHeight: 22,
     width: 129,
   },
   activeword : {
+    paddingHorizontal:width * 0.05,
+    backgroundColor:"rgba(65, 232, 141, 0.69)",
     color:"white",
     borderRadius:12,
     fontFamily:"Poppins",
     fontWeight:"light",
-    fontSize:12,
-    marginBottom:height * 0.005,
-    opacity:1,
-  },
-  verticalLine: {
-    backgroundColor:"#fff",
-    width:1,
-    height:width * 0.12,
+    marginBottom:height * 0.005
   },
   cardInfoBtn: {
-    width: 129,
+    width: width * 0.35,
     height: 32,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 29,
     marginTop: 13,
+  },
+  text: {
+    color:"#fff",
+    fontSize:10,
+    width:width * 0.4,
+    marginBottom:height * 0.01,
   },
   cardInfoBtnText: {
     fontFamily: 'Montserrat',
@@ -352,6 +325,12 @@ export default StyleSheet.create({
     flexDirection:"column",
     margin:0,
     padding:0,
+  },
+  horizontalLine:{
+    height:0.5,
+    width:width * 0.4,
+    backgroundColor:"#fff",
+    marginVertical:height * 0.01,
   }
  
 });

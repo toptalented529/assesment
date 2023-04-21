@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 import { Signature } from 'ethers'
 import axios from 'axios'
+import transaction from "../assets/transaction.json"
 const https = require('https');
 const uuid = require('uuid');
 
@@ -21,14 +22,14 @@ export const register = async (req, res, next) => {
     const agent = new https.Agent({
         rejectUnauthorized: false,
     });
-    const response = await axios.get("https://oficina.universo-blockchain.io/universo/Univer_dat_dat/v1/mov_u?api_key=U8qifyta", { httpsAgent: agent })
-    const { mov_u } = response.data
+    // const response = await axios.get("https://oficina.universo-blockchain.io/universo/Univer_dat_dat/v1/mov_u?api_key=U8qifyta", { httpsAgent: agent })
+    const { mov_u } = transaction
     mov_u?.map(async (mov, index) => {
 
-        const { id, name, fch, hra, fch_hra, inv_u, mov_tip, imp, tkns, hayeks, cve, hash, cant } = mov
+        const { id, name, fch, hra, fch_hra, inv_u, mov_tip, imp, tkns, hayeks, cve, hash, cant, tracking_number } = mov
         try {
-            const existinguser = await models.Transaction.findOne({ where: { id } });
-            if (!existinguser) {
+            const existingTransaction = await models.Transaction.findOne({ where: { id } });
+            if (!existingTransaction) {
 
 
                 const transaction = await models.Transaction.create({
@@ -44,7 +45,8 @@ export const register = async (req, res, next) => {
                     hayeks_pos: hayeks,
                     cve,
                     hash,
-                    cant
+                    cant,
+                    tracking_number
                 })
                 console.log(transaction.id)
                 // res.status(200).json({ id:transaction.id })
@@ -55,7 +57,7 @@ export const register = async (req, res, next) => {
         }
     })
 
-    res.status(200).json({succss:"success"})
+    res.status(200).json({ succss: "success" })
 
 
 
@@ -71,15 +73,16 @@ export const me = async (req, res) => {
 }
 
 //get profile from the current user
-export const getProfile = async (req, res, next) => {
+export const getTransaction = async (req, res, next) => {
     try {
         const user = await models.User.findOne(
             {
-                where: { id: req.currentUser.id },
-                include: [{ model: models.Profile, as: 'profile' }],
-                attributes: { exclude: ['password'] }
+                where: {
+                    address: req.address
+                }
             })
-        res.status(200).json(user)
+        const transaction = await models.Transaction.findAll({ where: { inv_u: user.id } })
+        res.status(200).json(transaction)
     } catch (err) {
         res.status(500).json(err.message)
 
@@ -93,7 +96,7 @@ export const setPin = async (req, res) => {
     res.status(200).json({ user: existinguser, success: true })
 
 }
- 
+
 
 //////////////////////////////////set hayek transaction information for users/////////////////////////
 
@@ -106,17 +109,17 @@ export const register_hayek = async (req, res, next) => {
     const { mov_hay_u } = response.data
     mov_hay_u?.map(async (mov, index) => {
 
-        const { hay_u,id,cant,inv_u } = mov
+        const { hay_u, id, cant, inv_u } = mov
         try {
             const existinguser = await models.Hayek.findOne({ where: { id } });
             if (!existinguser) {
 
-                console.log(hay_u,id,cant,inv_u)
+                console.log(hay_u, id, cant, inv_u)
                 const transaction = await models.Hayek.create({
-                    code:id,
-                    user_id:inv_u,
-                    amount_token:cant,
-                    series_name:hay_u,
+                    code: id,
+                    user_id: inv_u,
+                    amount_token: cant,
+                    series_name: hay_u,
                 })
                 console.log(transaction.id)
                 // res.status(200).json({ id:transaction.id })
@@ -127,7 +130,7 @@ export const register_hayek = async (req, res, next) => {
         }
     })
 
-    res.status(200).json({succss:"success"})
+    res.status(200).json({ succss: "success" })
 
 
 
@@ -143,17 +146,17 @@ export const register_genu = async (req, res, next) => {
     const { mov_gen_u } = response.data
     mov_gen_u?.map(async (mov, index) => {
 
-        const { gen_u,id,cant,inv_u } = mov
+        const { gen_u, id, cant, inv_u } = mov
         try {
             const existinguser = await models.Genu.findOne({ where: { id } });
             if (!existinguser) {
 
 
                 const transaction = await models.Genu.create({
-                    code:id,
-                    user_id:inv_u,
-                    amount_token:cant,
-                    series_name:gen_u,
+                    code: id,
+                    user_id: inv_u,
+                    amount_token: cant,
+                    series_name: gen_u,
                 })
                 console.log(transaction.id)
                 // res.status(200).json({ id:transaction.id })
@@ -164,7 +167,151 @@ export const register_genu = async (req, res, next) => {
         }
     })
 
-    res.status(200).json({succss:"success"})
+    res.status(200).json({ succss: "success" })
+
+
+
+}
+export const getProducts = async (req, res) => {
+    const agent = new https.Agent({
+        rejectUnauthorized: false,
+    });
+
+    const productItems = []
+
+    try {
+        const response = await axios.post("https://31.220.82.149/rest/V1/integration/admin/token", {
+            username: "admin",
+            password: "admin123",
+        }, {
+            httpsAgent: agent,
+        })
+        console.log(response.data)
+
+        const response1 = await axios.get("https://31.220.82.149/rest/V1/products?searchCriteria[pageSize]=20", {
+            httpsAgent: agent,
+            headers: {
+                Authorization: `Bearer ${response.data}`
+            }
+        })
+        console.log(response1)
+
+
+        await Promise.all(response1.data.items.map(async (item, index) => {
+            const id = item.extension_attributes.category_links?.filter((link, index) => {
+                return link.position === 0;
+            });
+
+            try {
+                const preURL = "https://31.220.82.149/media/catalog/product"
+                const res55 = await models.MagentoCagetory.findOne({ where: { id: id[0].category_id } });
+                console.log("here", res55?.category);
+
+                const itemData = {
+                    name: item.name,
+                    description: item.custom_attributes.filter((attribute) => {
+                        return attribute.attribute_code === "meta_description";
+                    }),
+                    price: item.price,
+                    image: item.media_gallery_entries[0] ? preURL + item.media_gallery_entries[0].file : "null",
+                    category: res55 ? res55.category : "blockchain",
+                    subcategory: res55 ? res55.subcategory : "pro",
+                };
+                console.log("here", itemData);
+
+                productItems.push(itemData);
+            } catch (e) {
+                console.log("22222222222222222222222222");
+                res.status(401).json({ success: false });
+            }
+        }));
+
+
+
+
+
+
+        res.status(200).json({ items: productItems })
+    } catch (e) {
+        res.status(401).json({ success: false })
+    }
+
+
+}
+
+export const setMagentCategory = async (req, res) => {
+
+    try {
+        await models.MagentoCagetory.create({
+            id: req.body.id,
+            category: req.body.category,
+            subcategory: req.body.subcategory,
+            bonuspercentage:req.body.bonuspercentage,
+        })
+
+
+        res.status(200).json({ success: true })
+
+    } catch (e) {
+        res.status(401).json({ success: false })
+    }
+
+
+
+
+
+
+}
+export const setTransaction = async (req, res) => {
+
+    try {
+        
+        const user = await models.User.findOne({where:{address:req.address}})
+        
+        console.log("23232",req.body.name)
+
+        await models.Transaction.create({
+
+            name: req.body.name,
+            fch: req.body.time,
+            hra: req.body.time,
+            fch_hra:req.body.time,
+            inv_u:user.id,
+            mov_tip:req.body.transactionType,
+            tracking_number:"",
+
+        })
+
+
+        // const currentDate = new Date();
+
+        // // Convert the date to an ISO 8601 formatted string
+        // const timestamp = currentDate.toISOString();
+
+        // if(req.body.productType ==='Blockchain'){
+        //         user.last_blockahin_purchased_date = timestamp;
+        //         await user.save()
+        // }
+        // if(req.body.productType ==='Investment'){
+        //     user.last_associated_purchased_date = timestamp;
+        //     await user.save()
+
+        // }
+        // if(req.body.productType ==='Products'){
+        //     user.last_product_purchased_date = timestamp;
+        //     await user.save()
+
+        // }
+
+        res.status(200).json({ success: true })
+
+
+    } catch (e) {
+        res.status(401).json({ success: false })
+    }
+
+
+
 
 
 

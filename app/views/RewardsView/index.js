@@ -49,9 +49,10 @@ const RewardsView = props => {
     isUpdating: false,
   });
   const {loading, isUpdating, refreshing} = state;
+  const tabBarHeight = useBottomTabBarHeight();
 
   return (
-    <MainScreen navigation={navigation} style={{backgroundColor: '#141436'}}>
+    <MainScreen navigation={navigation} style={{backgroundColor: '#141436', paddingBottom:tabBarHeight+10}}>
       <ImageBackground
        source={images.home_background}
        style={styles.backgroundImage}
@@ -59,16 +60,18 @@ const RewardsView = props => {
       <MainHeader />
 
       {isUpdating && (
-        <ActivityIndicator absolute theme={theme} size={'large'} />
+        <ActivityIndicator absolute theme={"light"} size={'large'} />
       )}
-      <BalanceDetail />
       <ScrollView>
+      <BalanceDetail />
       <View style={styles.btnContainer}>
         <NavButton name={'Direct'} />
         <NavButton name={'Empates'} />
-        <NavButton name={'Igualacion'} />
+        <NavButton name={'Team'} />
         <NavButton name={'Range'} />
         <NavButton name={'Annual'} />
+        <NavButton name={'Sales'} />
+        <NavButton name={'Igualacion'} />
         <NavButton name={'Embassador'} />
       </View>
       </ScrollView>

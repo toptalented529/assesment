@@ -9,17 +9,21 @@ import styles from './styles';
 import { COLOR_WHITE, COLOR_ULTRAMARINE, COLOR_BLACK } from '../../constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { ethers } from 'ethers';
+import { bonus_ABI, bonus_address } from '../../constants/app';
+import ActivityIndicator from '../../containers/ActivityIndicator';
 
 const { width, height } = Dimensions.get("screen")
 
-const BalanceDetail = ({ balance, day = 0, hour = 0, minute = 0, second = 0, name }) => {
+const BalanceDetail = ({ balance, day = 0, hour = 0, minute = 0, second = 0, name, ethereum }) => {
 
   const [currentDay, setCurrentDay] = useState(day)
   const [currentHour, setCurrentHour] = useState(hour)
   const [currentMinute, setCurrentMinute] = useState(minute)
   const [currentSecond, setCurrentSecond] = useState(second)
-
+  const [user, setUser] = useState()
   const [remainingTime, setRemainingTime] = useState(0)
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     const handle = async () => {
       const jwt = await AsyncStorage.getItem("jwt")
@@ -31,7 +35,7 @@ const BalanceDetail = ({ balance, day = 0, hour = 0, minute = 0, second = 0, nam
       )
 
 
-
+      setUser(res.data.user)
       const blockchain_purchased = new Date(name === "Blockchain" ? res.data.user.last_blockchain_purchased_date : name === "Products" ? res.data.user.last_product_purchased_date : res.data.user.last_associated_purchased_date)
       const timestamp = blockchain_purchased.getTime()
 
@@ -40,7 +44,7 @@ const BalanceDetail = ({ balance, day = 0, hour = 0, minute = 0, second = 0, nam
       const currentUTC = Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),
         new Date().getHours(), new Date().getMinutes(), new Date().getSeconds());
 
-      console.log("Current UTC Timestamp: ", currentUTC,timestamp);
+      console.log("Current UTC Timestamp: ", currentUTC, timestamp);
       const daysToMilliseconds = 30 * 24 * 60 * 60 * 1000;
 
       setRemainingTime(daysToMilliseconds - (currentUTC - timestamp))
@@ -55,6 +59,7 @@ const BalanceDetail = ({ balance, day = 0, hour = 0, minute = 0, second = 0, nam
     const intervalId = setInterval(() => {
       if (remainingTime > 1000) {
         setRemainingTime(remainingTime - 1000);
+
         const seconds = Math.floor(remainingTime / 1000);
         const minutes = Math.floor(seconds / 60);
         const hours = Math.floor(minutes / 60);
@@ -79,6 +84,124 @@ const BalanceDetail = ({ balance, day = 0, hour = 0, minute = 0, second = 0, nam
     return () => clearInterval(intervalId);
   }, [remainingTime]);
 
+  const handleClick = async () => {
+
+    try {
+      if (!ethereum.isConnected()) {
+
+        try{
+
+          setLoading(true)
+          console.log("dfdf", ethereum)
+          const result = await ethereum.request({ method: 'eth_requestAccounts' });
+          console.log('RESULT', result?.[0], ethereum.selectedAddress);
+  
+          const provider = new ethers.providers.Web3Provider(ethereum);
+  
+          // Get the balance for the address
+  
+  
+          const contract = new ethers.Contract(bonus_address, bonus_ABI, provider.getSigner());
+  
+  
+          await contract.withdrawBonus(user.id, "blockchain", "Matching")
+          
+          
+          
+          const jwt = await AsyncStorage.getItem("jwt")
+          const date = new Date()
+
+          var hours = date.getHours(); // Returns the hours (0-23)
+          var minutes = date.getMinutes(); // Returns the minutes (0-59)
+          var seconds = date.getSeconds(); // Returns the seconds (0-59)
+          var milliseconds = date.getMilliseconds(); // Returns the milliseconds (0-999)
+  
+          // Format the time
+          var formattedTime = hours + ':' + minutes + ':' + seconds + '.' + milliseconds;
+          const res = await axios.post("http://95.217.197.177:80/transaction/settransaction", {
+            name:user.name+"matching" + name,
+            time:formattedTime,
+            bonus_amount:balance,
+            transactionType:"I"
+
+            
+          }, {
+            
+            headers: {
+              authorization: `bearer ${jwt}`
+            }
+          }
+          )
+          
+          
+          
+                  setLoading(false)
+                  balance = 0
+        }catch(e){
+            console.log(e)
+        }
+    
+
+      } else {
+
+        try {
+          setLoading(true)
+
+          const provider = new ethers.providers.Web3Provider(ethereum);
+
+          // Get the balance for the address
+
+
+          const contract = new ethers.Contract(bonus_address, bonus_ABI, provider.getSigner());
+
+
+          await contract.withdrawBonus(user.id, "blockchain", "Matching")
+
+          const jwt = await AsyncStorage.getItem("jwt")
+            const date = new Date()
+
+            var hours = date.getHours(); // Returns the hours (0-23)
+            var minutes = date.getMinutes(); // Returns the minutes (0-59)
+            var seconds = date.getSeconds(); // Returns the seconds (0-59)
+            var milliseconds = date.getMilliseconds(); // Returns the milliseconds (0-999)
+    
+            // Format the time
+            var formattedTime = hours + ':' + minutes + ':' + seconds + '.' + milliseconds;
+            console.log(formattedTime)
+          const res = await axios.post("http://95.217.197.177:80/transaction/settransaction", {
+            name:user.nickname+"matching" + name,
+            time:formattedTime,
+            bonus_amount:balance,
+            transactionType:"I"
+
+            
+          }, {
+            
+            headers: {
+              authorization: `bearer ${jwt}`
+            }
+          }
+          )
+          setLoading(false)
+
+
+
+
+
+
+        } catch (e) {
+
+        }
+
+
+      }
+
+    } catch (e) {
+      console.log('ERROR', e);
+    }
+
+
+  }
 
 
   return (
@@ -115,19 +238,25 @@ const BalanceDetail = ({ balance, day = 0, hour = 0, minute = 0, second = 0, nam
             </View>
           </View>
         </View>
-        <LinearGradient
-          colors={['#000', '#000']}
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
+        <TouchableOpacity
+          disabled={loading}
+          onPress={handleClick}
           style={[styles.balancePriceBox, { borderRadius: 13 }]}>
+          {loading ? <Text> <ActivityIndicator absolute theme={"light"} size={'large'} /> </Text>
 
-          <Text style={[styles.balancePriceText, { color: '#fff', paddingTop: 12 }]}>
-            {balance ? `${balance}$` : `00000$`}
-          </Text>
-          <Text style={[{ color: '#fff', paddingBottom: 6 }]}>
-            {/* Money Today */}
-          </Text>
-        </LinearGradient>
+            :
+            (<View>
+              <Text style={[styles.balancePriceText, { color: '#fff', paddingTop: 12 }]}>
+                {balance ? `$${balance}` : `00000$`}
+              </Text>
+              <Text style={[{ color: '#fff', paddingBottom: 6 }]}>
+                Money Today
+              </Text>
+            </View>
+            )
+          }
+
+        </TouchableOpacity>
       </View>
     </View>
   );

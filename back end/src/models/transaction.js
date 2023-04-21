@@ -14,6 +14,8 @@ const transaction = (sequelize,DataTypes)=>{
         cve:DataTypes.STRING,  ////operation code
         hash:DataTypes.STRING, //hash
         cant:DataTypes.INTEGER, ///quantitiy
+        tracking_number:DataTypes.STRING, ///quantitiy
+        
     
     
         

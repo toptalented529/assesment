@@ -43,6 +43,8 @@ import GenuView from '../views/GenuView';
 import RewardsView from '../views/RewardsView';
 import RewardsDetailView from '../views/RewardsDetailView';
 import AuthorizeView from '../views/AuthorizeView';
+import MatchingRewardView from '../views/MatchingRewardView';
+import MatchingRewardDetailView from '../views/MatchingRewardDetailView';
 
 const Tab = createBottomTabNavigator();
 const Inside = createStackNavigator();
@@ -158,6 +160,16 @@ const TabStack = () => {
       <Tab.Screen
         name="AuthorizationView"
         component={AuthorizeView}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="MatchingRewardView"
+        component={MatchingRewardView}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="MatchingRewardDetailView"
+        component={MatchingRewardDetailView}
         options={{headerShown: false}}
       />
     </Tab.Navigator>

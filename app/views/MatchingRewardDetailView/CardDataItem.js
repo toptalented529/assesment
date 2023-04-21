@@ -17,61 +17,55 @@ import { VectorIcon } from '../../containers/VectorIcon';
 import LinearGradient from 'react-native-linear-gradient';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-import Chronometer from './Chronometer';
 
-const CardDataItem = ({ name,type }) => {
+const CardDataItem = ({ name,active }) => {
 
-  const [active, setActive] = useState(true)
-  const [expanded, setExpanded] = useState(false)
+  const [image, setImage] = useState()
 
 
   const navigation = useNavigation();
- 
 
-  const handleExpand = () => {
-      setExpanded (!expanded)
-  }
+
+
+    const handleCLick = () => {
+      navigation.navigate("HomeProduct",{type:name})
+    }
 
 
 
   return (
     <LinearGradient
-      colors={['#a857ff', 'rgba(255, 255, 255, 0)']}
+      colors={[' rgba(116, 112, 186,0.4)', '#06042e']}
       style={styles.cardContainerBorder}>
       <LinearGradient
-        colors={['#7470ba', '#06042e']}
+        colors={[' rgba(116, 112, 186,0.4)', '#06042e']}
         // start={{ x: 0.5, y: 0 }}
         // end={{ x: 0.5, y: 0.5}}
         style={styles.cardContainer}>
         <View style={styles.cardBox}>
           <View style={styles.cardpiccontainer}>
-            <Image source={name === "Blockchain" ? images.ico_wallet : name === "Products" ? images.ico_bag1 : images.ico_invest} style={styles.cardPic} />
+            <View style={styles.cardpicbox}></View>
+            <Image source={name === "Blockchain"? images.ico_wallet:name ==="Products"? images.ico_bag1:images.ico_invest} style={styles.cardPic} />
           </View>
           <View style={styles.cardInfo}>
-            <Text style={styles.activeword}>EEARNINGS FROM</Text>
+            <Text style ={[styles.activeword,{backgroundColor:active? "rgba(65, 232, 141, 0.69)":"rgba(255, 86, 86, 0.71)"}]}>{active?"Active":"Inactive"}</Text>
             <Text style={[styles.cardInfoText, { color: COLOR_WHITE }]}>
               {name}
             </Text>
+            {/* <TouchableOpacity
+              style={[
+                styles.cardInfoBtn,
+                { color: COLOR_WHITE, borderColor: COLOR_WHITE },
+              ]}>
+                <TouchableOpacity style={[styles.cardInfoBtnText, { color: COLOR_WHITE }]} onPress ={handleCLick}>
 
+              <Text style={[styles.cardInfoBtnText, { color: COLOR_WHITE }]}>
+                button
+              </Text>
+                </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
-          <View style={styles.verticalLine} />
-
-          <TouchableOpacity style={{ marginRight: 10, }} onPress={handleExpand}>
-            <VectorIcon
-              type="AntDesign"
-              name={expanded?"caretup":"caretdown"}
-              size={18}
-              color="#fff"
-            />
-          </TouchableOpacity>
-
-
         </View>
-        {
-          expanded &&
-          <Chronometer name = {name} type ={type} />
-        }
-       
       </LinearGradient>
     </LinearGradient>
   );

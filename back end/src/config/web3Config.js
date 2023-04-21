@@ -4,193 +4,11 @@ const { ethers } = require('ethers');
 
 const privateKey = 'd6bf6f93b12dd365faeed99f44bf9cb493edf5deb734878abec4d5f0418134cd';
 
-const contractAddress = '0xE2Df4634A43b7EE81d2C13fe5C56931E543E64bc'
+const contractAddress = '0xE978863a31Db52e3D23532d340573c24b746C9f7'
 
 
 
 const ABI = [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_matching",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_team",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_range",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_sales",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_MOS",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_BonusWallet",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address[]",
-				"name": "children",
-				"type": "address[]"
-			}
-		],
-		"name": "weeklyPayChildren",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "OrgMatchedAccum",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "OrgMatchedAccumMinRange",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"name": "RANGE_BONUS",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"name": "RANGE_MEMBER_COUNT",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"name": "RANGE_SALES",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"name": "TEAM_BONUS_PERCENT",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
 	{
 		"inputs": [
 			{
@@ -251,299 +69,82 @@ const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getAnuallyTotalAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
-			}
-		],
-		"name": "getDistrubuteAndPercent",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "a",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "b",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "string",
 				"name": "business",
 				"type": "string"
 			},
-			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
-			}
-		],
-		"name": "getMatchPendingAccumData",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "business",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
-			}
-		],
-		"name": "getMatchedAccumData",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
-			}
-		],
-		"name": "getNodeChildren",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
-			}
-		],
-		"name": "getNodeRange",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "business",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
-			}
-		],
-		"name": "getNodeRangeAccum",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "business",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
-			}
-		],
-		"name": "getNodeTeamBonus",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "business",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
-			}
-		],
-		"name": "getNodesumTeamBonus",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
 			{
 				"internalType": "uint256",
 				"name": "amount",
 				"type": "uint256"
-			}
-		],
-		"name": "getOrgMatchedAccumLevel",
-		"outputs": [
+			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "buyer",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "addPurchaseData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "node",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "_matching",
+				"type": "address"
 			},
 			{
-				"internalType": "string",
-				"name": "business",
-				"type": "string"
+				"internalType": "address",
+				"name": "_team",
+				"type": "address"
 			},
 			{
-				"internalType": "string",
-				"name": "BonusType",
-				"type": "string"
-			}
-		],
-		"name": "getReservedTotalBonusAmount",
-		"outputs": [
+				"internalType": "address",
+				"name": "_range",
+				"type": "address"
+			},
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "_sales",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_MOS",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_BonusWallet",
+				"type": "address"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "nodes",
-		"outputs": [
-			{
+				"indexed": true,
 				"internalType": "address",
-				"name": "mine",
+				"name": "previousOwner",
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "parent",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "range",
-				"type": "string"
-			},
-			{
-				"internalType": "bool",
-				"name": "flag",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
+				"indexed": true,
 				"internalType": "address",
-				"name": "",
+				"name": "newOwner",
 				"type": "address"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
+		"name": "OwnershipTransferred",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -647,6 +248,11 @@ const ABI = [
 			{
 				"internalType": "uint256",
 				"name": "buyer",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "directbonusRate",
 				"type": "uint256"
 			}
 		],
@@ -836,6 +442,19 @@ const ABI = [
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address[]",
+				"name": "children",
+				"type": "address[]"
+			}
+		],
+		"name": "weeklyPayChildren",
+		"type": "event"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -874,6 +493,434 @@ const ABI = [
 		"name": "withdrawBonus",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAnuallyTotalAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getDistrubuteAndPercent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "a",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "b",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "business",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getMatchedAccumData",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "business",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getMatchPendingAccumData",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getNodeChildren",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getNodeRange",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getNodeRangeAccum",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "business",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getNodesumTeamBonus",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "business",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getNodeTeamBonus",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "getOrgMatchedAccumLevel",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			}
+		],
+		"name": "getPurchasedAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "node",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "business",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "BonusType",
+				"type": "string"
+			}
+		],
+		"name": "getReservedTotalBonusAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "nodes",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "mine",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "parent",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "range",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "flag",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "OrgMatchedAccum",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "OrgMatchedAccumMinRange",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "RANGE_BONUS",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "RANGE_MEMBER_COUNT",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "RANGE_SALES",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "TEAM_BONUS_PERCENT",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]

@@ -11,7 +11,7 @@ import {
   ImageBackground,
   ScrollView,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 import StatusBar from '../../containers/StatusBar';
@@ -33,12 +33,13 @@ import RecentActivity from './RecentActivity';
 import CardDataItem from './CardDataItem';
 
 import images from '../../assets/images';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import RewardHeader from './RewardHeader';
 const { width } = Dimensions.get('screen');
 
-const RewardsDetailView = props => {
-  const route = useRoute()
-  const { name } = route.params
+const MatchingRewardView = props => {
+  const {width,height} = Dimensions.get("screen")
   const navigation = useNavigation();
   const [state, setState] = useState({
     refreshing: false,
@@ -48,38 +49,66 @@ const RewardsDetailView = props => {
   const { loading, isUpdating, refreshing } = state;
   const tabBarHeight = useBottomTabBarHeight();
 
+  const [users,setUsers] = useState()
+  const [rangeAmount,setRangeAmount] = useState()
+
+  useEffect(() => {
+
+    const handleEffect = async () => {
+
+      const jwt = await AsyncStorage.getItem("jwt")
+  
+        const res = await axios.get("http://95.217.197.177:80/account/me", {
+  
+          headers: {
+            authorization: `bearer ${jwt}`
+          }
+        }
+        )
+
+        console.log(res.data.user)
+        setUsers(res.data)
+
+      }
+      
+
+
+    handleEffect()
+  }, [])
+
+
+
+
   return (
 
     <MainScreen
       navigation={navigation}
-      style={{ backgroundColor: 'transparent', paddingBottom: tabBarHeight + 10 }}
+      style={{backgroundColor: 'transparent', paddingBottom: tabBarHeight }}
     >
       <ImageBackground
         source={images.home_background}
         style={styles.backgroundImage}
       >
+       
         <StatusBar />
         <MainHeader />
         {isUpdating && (
           <ActivityIndicator absolute theme={theme} size={'large'} />
         )}
-        <ScrollView style={{ flexGrow: 1 }}>
-          <BalanceDetail name={name} />
-          <RewardHeader name={name} />
+        <ScrollView style={{ flexGrow: 1,marginBottom:30 }}>
+       <RewardHeader name ={"Matching"}></RewardHeader>
 
-          <Text style={styles.transactionText}>My Transaction</Text>
-          {name !== "Annual" && name !== "Embassador" ?
-            <View style={styles.btnContainer}>
-              <BuyButton name={'Investment'} />
-              <BuyButton name={'Blockchain'} />
-              <BuyButton name={'Products'} />
-            </View> : <></>
-          }
-          <View style={styles.cardItems}>
-            <CardDataItem name={'Blockchain'} type={name} />
+          <View style={styles.btnContainer}>
+            <BuyButton name={'Buy Investment'} />
+            <BuyButton name={'Buy Blockchain'} />
+            <BuyButton name={'Buy Products'} />
           </View>
-          <CardDataItem name={'Associated'} type={name} />
-          <CardDataItem name={'Products'} type={name} />
+          <View style = {styles.cardItems}>
+          <CardDataItem name = {'Blockchain'} />
+          </View>
+          <CardDataItem name = {'Associated'}/>
+          <CardDataItem name = {'Products'}/>
+          {/* <RecentActivity /> */}
         </ScrollView>
       </ImageBackground>
     </MainScreen>
@@ -99,4 +128,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withActionSheet(withTheme(RewardsDetailView)));
+)(withActionSheet(withTheme(MatchingRewardView)));

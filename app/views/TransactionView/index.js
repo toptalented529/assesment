@@ -21,6 +21,7 @@ import {
 import { withTheme } from '../../theme';
 import images from '../../assets/images';
 import styles from './styles';
+import ActivityIndicator from '../../containers/ActivityIndicator';
 
 import MainScreen from '../../containers/MainScreen';
 import StatusBar from '../../containers/StatusBar';
@@ -32,7 +33,7 @@ import axios from 'axios';
 
 const TransactionView = props => {
 
-  const [allTransaction, setAllTransaction] = useState()
+  const [allTransaction, setAllTransaction] = useState([])
   const [shoppingTransaction, setShoppingTransaction] = useState()
   const [commissionTransaction, setCommissionTransaction] = useState()
   const [withdrawTransaction, setWithdrawTransaction] = useState()
@@ -136,7 +137,8 @@ const TransactionView = props => {
         </ScrollView>
       );
     } else {
-      return <></>;
+      return    <ActivityIndicator absolute theme={"light"} size={'large'} />
+      ;
     }
   };
 
@@ -150,7 +152,7 @@ const TransactionView = props => {
   ]);
 
   const renderScene = SceneMap({
-    first: () => <RenderFlatListItem type={'all'} data={allTransaction? allTransaction:tData} />,
+    first: () => <RenderFlatListItem type={'all'} data={allTransaction.length !==0?allTransaction:tData} />,
     second: () => <RenderFlatListItem type={'shopping'} data={shoppingTransaction? shoppingTransaction:tData} />,
     third: () => <RenderFlatListItem type={'commisions'} data={commissionTransaction?commissionTransaction:tData} />,
     forth: () => <RenderFlatListItem type={'Withdrawals'} data={withdrawTransaction? withdrawTransaction:tData} />,

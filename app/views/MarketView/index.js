@@ -42,7 +42,11 @@ import axios from 'axios';
 const MarketView = props => {
   const searchInput = useRef(null);
   const [searchText, setSearchText] = useState('');
+  const [itemData, setItemData] = useState([])
   const tabBarHeight = useBottomTabBarHeight();
+  const { ethereum } = props;
+
+  console.log("55555555555555555555",ethereum)
 
   const route = useRoute();
   let { indexID } = route.params;
@@ -57,19 +61,33 @@ const MarketView = props => {
 
   useEffect(() => {
     const handleAxois = async () => {
-      console.log("here")
+      const data = []
+      const response = await axios.get("http://95.217.197.177:80/transaction/getProducts")
+      await response.data.items.map((item, index) => {
 
-      // const response =await axios.post("https://31.220.82.149/rest/V1/integration/admin/token",{
-      //   username:"admin",
-      //   password:"admin123"
-      // })
+        data.push({
+          id: index + 1,
+          title: item.name,
+          price:item.price,
+          description: item.description[0].value,
+          // category: item.category,
+          category:"blockchain",
+          // subcategory: item.subcategory,
+          subcategory:"pro",
+          image:item.image,
+        })
 
-    
+
+
+      })
+
+      setItemData(data)
 
 
 
 
-      console.log(response1)
+
+
     }
 
 
@@ -119,12 +137,12 @@ const MarketView = props => {
       return (
         <ScrollView>
           {data.map(idx => (
-            <ProductItem data={idx} key={'ti' + idx.id} />
+            <ProductItem data={idx} etheruem ={ethereum.sdk.getProvider()} key={'ti' + idx.id} />
           ))}
         </ScrollView>
       );
     } else {
-      return <></>;
+      return <ActivityIndicator  absolute theme={"light"} size={'large'}/>;
     }
   };
 
@@ -140,10 +158,16 @@ const MarketView = props => {
   ]);
 
   const renderScene = SceneMap({
-    first: () => <RenderFlatListItem type={'all'} data={tData} />,
-    second: () => <RenderFlatListItem type={'blockchain'} data={tData} />,
-    third: () => <RenderFlatListItem type={'products'} data={tData} />,
-    firth: () => <RenderFlatListItem type={'investment'} data={tData} />,
+    first: () => <RenderFlatListItem type={'all'} data={itemData} />,
+    second: () => <RenderFlatListItem type={'blockchain'} data={itemData?.filter((item) => {
+      return item.category ==="blockchain"
+    })} />,
+    third: () => <RenderFlatListItem type={'products'}data={itemData?.filter((item) => {
+      return item.category ==="products"
+    })} />,
+    firth: () => <RenderFlatListItem type={'investment'}data={itemData?.filter((item) => {
+      return item.category ==="investments"
+    })} />,
   });
   const renderTabBar = props => {
     return (
@@ -225,13 +249,14 @@ const MarketView = props => {
 
 const mapStateToProps = state => ({
   user: state.login.user,
+  ethereum:state.app.ethereum
 });
 
-const mapDispatchToProps = dispatch => ({
-  setUser: params => dispatch(setUserAction(params)),
-});
+// const mapDispatchToProps = dispatch => ({
+//   // setUser: params => dispatch(setUserAction(params)),
+// });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  // mapDispatchToProps,
 )(withActionSheet(withTheme(MarketView)));
